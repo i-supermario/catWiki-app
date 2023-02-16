@@ -5,6 +5,7 @@ import Searchbar from './searchbar'
 import HeroImagesm from '../assets/HeroImagesm.png'
 import HeroImagelg from '../assets/HeroImagelg.png'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 // let data = require('../data/searchdata.json')
 
@@ -22,12 +23,12 @@ function Searchpanel(props){
             let name = value['name']
             resultData.push(
                 <ListItem key={name}>
-                    {name}
+                    <Link to="/profile" state={{data: value}} sx={{textDecoration:"none",color:"black"}}>{name}</Link>
                 </ListItem>
             )
         })
         setResultList(resultData)
-        console.log(resultList)
+        // console.log(resultList)
         
     }
 
