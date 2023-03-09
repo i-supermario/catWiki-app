@@ -95,13 +95,7 @@ function Details(props){
                 <Quality name="Intelligence" value={data.intelligence}/>
                 <Quality name="Health Issues" value={data.health_issues}/>
                 <Quality name="Social Needs" value={data.social_needs}/>
-                <Quality name="Stranger Friendly" value={data.stranger_friendly}/>
-
-                
-
-                
-                
-                
+                <Quality name="Stranger Friendly" value={data.stranger_friendly}/>             
             </Container>
         </>
     )

@@ -1,16 +1,18 @@
-import { Typography,Divider,Link } from '@mui/material'
+import { Typography,Divider } from '@mui/material'
 import Container from '@mui/material/Container'
 import Picturepanel from './picturepanel';
+import { Link } from 'react-router-dom'
 
 function Breedpanel(){
+
     return(
         <>
             <Container maxWidth="md" sx={{
                 width:{xs:'315px',sm:'750px'},
                 display:'flex',
                 flexDirection:'column',
-                rowGap:'5px',
-                padding:{xs:'10px 24px 10px 24px',sm:'40px 48px 40px 48px'},
+                rowGap:'10px',
+                padding:{xs:'10px 24px 10px 24px',sm:'30px 48px 30px 48px'},
                 bgcolor:'#fff2e6',
                 borderBottomLeftRadius:'15px',borderBottomRightRadius:'15px',
                 fontFamily:'Rockwell'}}>
@@ -30,9 +32,10 @@ function Breedpanel(){
                     }} >
                         66+ Breeds For you to discover
                     </Typography>
-                    <Link sx={{display:{xs:'none',sm:'block'},color:'#331a00',textDecorationLine:'none'}} href='https://animalkind.org/blog/top-5-reasons-cat/' >
-                        SEE MORE 
+                    <Link to='/top-10-searched-breeds' style={{textDecoration:"none",color:'inherit'}}>
+                        SEE MORE
                     </Link>
+
                 </Container>
                 <Picturepanel/>
             </Container>

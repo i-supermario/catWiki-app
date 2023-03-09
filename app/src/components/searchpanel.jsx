@@ -23,7 +23,10 @@ function Searchpanel(props){
             let name = value['name']
             resultData.push(
                 <ListItem key={name}>
-                    <Link to="/profile" state={{data: value}} sx={{textDecoration:"none",color:"black"}}>{name}</Link>
+                    <Link to="/profile" state={{data: value}} style ={{textDecoration:"none",color:"black"}} 
+                    >
+                    {name} 
+                        </Link>
                 </ListItem>
             )
         })

@@ -1,5 +1,4 @@
 import { Container, Grid, Typography } from "@mui/material";
-import { grid } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Details from "../components/details";
@@ -16,6 +15,14 @@ function Profile(){
             .then(res => res.json())
             .then(data => setImgUrl(data[0].url))
             .then(console.log(imgUrl))
+
+            fetch(`http://localhost:3001/app/post?catID=${data.id}`,{
+                method:'POST'
+            })
+            .then(console.log('success'))
+
+            console.log('i usually fire once')
+        
         },[])
 
     return(
