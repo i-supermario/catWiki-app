@@ -8,21 +8,13 @@ import Header from "../layouts/header";
 function Profile(){
     const location = useLocation()
     const { data } = location.state
-    const [imgUrl,setImgUrl] = useState('')
+    const [imgUrl,setImgUrl] = useState(`https://cdn2.thecatapi.com/images/${data.reference_image_id}.jpg`)
+
     // console.log(data)
     useEffect(()=>{
-            fetch(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${data.id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
-            .then(res => res.json())
-            .then(data => setImgUrl(data[0].url))
-            .then(console.log(imgUrl))
-
             fetch(`http://localhost:3001/app/post?catID=${data.id}`,{
                 method:'POST'
-            })
-            .then(console.log('success'))
-
-            console.log('i usually fire once')
-        
+            })   
         },[])
 
     return(
@@ -64,12 +56,12 @@ function Profile(){
 
 
 function Gallery(props){
-    const id = props.id;
+    const id = props.id
     const [data,setData] = useState([])
     useEffect(()=>{
-        fetch(`https://api.thecatapi.com/v1/images/search?limit=8&breed_ids=${id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
+        fetch(`http://localhost:3001/app/images/search?limit=8&id=${id}`)
         .then(res => res.json())
-        .then(data => setData(data))
+        .then(res => setData(res))
     },[])
 
     return(
@@ -95,14 +87,14 @@ function Gallery(props){
                                             borderRadius:"15px"
 
                                         }}
-                                        key={value.id} src={value.url} alt={value.name}/>
+                                        key={value.url} src={value.url} alt={value.url}/>
                                     </Grid>
                                 </> )
                             }
                         </Grid>
                 :
                 <Typography>
-                    Oh Shit!
+                    {data}
                 </Typography>
             }
 

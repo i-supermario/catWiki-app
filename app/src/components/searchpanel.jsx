@@ -16,21 +16,24 @@ function Searchpanel(props){
     async function showSearchResults(evt){
         setResultList([])
         let searchQ = evt.target.value;
-        let response = await fetch(`https://api.thecatapi.com/v1/breeds/search?q=${searchQ}`)
-        let result = await response.json()
-        let resultData = []
-        Object.values(result).forEach(value => {
-            let name = value['name']
-            resultData.push(
-                <ListItem key={name}>
-                    <Link to="/profile" state={{data: value}} style ={{textDecoration:"none",color:"black"}} 
-                    >
-                    {name} 
-                        </Link>
-                </ListItem>
-            )
+        fetch(`http://localhost:3001/app/search/${searchQ}`)
+        .then(res => res.json())
+        .then(result => {
+            let resultData = []
+            Object.values(result).forEach(value => {
+                let name = value['name']
+                resultData.push(
+                    <ListItem key={name}>
+                        <Link to="/profile" state={{data: value}} style ={{textDecoration:"none",color:"black"}} 
+                        >
+                        {name} 
+                            </Link>
+                    </ListItem>
+                )
+            })
+            return resultData
         })
-        setResultList(resultData)
+        .then(res => setResultList(res))
         // console.log(resultList)
         
     }

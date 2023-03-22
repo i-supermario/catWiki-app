@@ -2,8 +2,18 @@ import { Typography,Divider } from '@mui/material'
 import Container from '@mui/material/Container'
 import Picturepanel from './picturepanel';
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 
 function Breedpanel(){
+    const [data,setData] = useState('')
+    
+    useEffect(()=>{
+        fetch('http://localhost:3001/app/top')
+        .then(res => res.json())
+        .then(res => setData(res))
+        .then('data is set')
+
+    },[])
 
     return(
         <>
@@ -32,12 +42,12 @@ function Breedpanel(){
                     }} >
                         66+ Breeds For you to discover
                     </Typography>
-                    <Link to='/top-10-searched-breeds' style={{textDecoration:"none",color:'inherit'}}>
+                    <Link to='/top-10-searched-breeds' style={{textDecoration:"none",color:'inherit'}} state={{data: data}}>
                         SEE MORE
                     </Link>
 
                 </Container>
-                <Picturepanel/>
+                <Picturepanel data = {data}/>
             </Container>
         </>
     )   

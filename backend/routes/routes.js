@@ -1,3 +1,4 @@
+const { json } = require("body-parser")
 const express = require("express")
 const router = express.Router()
 module.exports = router
@@ -5,23 +6,93 @@ module.exports = router
 const Model = require("../models/model")
 
 
-// Post
+// Upsert Endpoint to insert if it doesn't exist, and update the timestamp if it does
 router.post('/post', async (req,res)=>{
     console.log("POSTING")
-    console.log(req.query)
-    const data = new Model({
-        catID: req.query.catID,
-    })
+    // const data = new Model({
+    //     _id: req.query.catID,
+    // })
 
     try{
-        const dataToSave = await data.save()
-        res.status(200).send(dataToSave)
+        let cat = await Model.findById(req.query.catID,{_id:0,visitorCount:1})
+
+        let visitorCount = cat ? cat.visitorCount : 0
+
+        const doc = await Model.updateOne(
+                    { _id: req.query.catID },
+                    { $set: { visitorCount: visitorCount + 1 } },
+                    { upsert: true,new: true } // Make this update into an upsert
+                  );
+        res.status(200).json({message:'Successful Update/Insert', content: doc})
     }
     catch(error){
-        res.status(400).json({message: error})        
+            res.status(400).json({message: error})
+            console.log(error)
 
     }
 })
+// Endpoint to get 10 recent searches
+router.get('/top',async (req,res)=>{
+    console.log('GET TOP 10')
+    try{
+        const data = await Model.find({},{_id:1}).sort({visitorCount:-1}).limit(10)
+
+        var promises = data.map(value => fetch(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${value._id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
+        .then(res => res.json()));
+        Promise.all(promises).then(results => {
+                const cats = results.map(result => {
+                    result[0].breeds[0].url = result[0].url
+                    return {
+                        cat : result[0].breeds[0],
+                    }
+                } 
+                )
+                res.status(200).send(cats)
+            });
+        
+    }
+    catch(error){
+        res.status(400).json({message:error})
+        console.log(error)
+    }
+    
+
+})
+
+//Endpoint to fetch cat details for a specific id
+router.get('/cats/:id',(req,res)=>{
+    console.log('GETTING CAT')
+    
+})
+
+//Endpoint to get search results
+router.get('/search/:query',(req,res)=>{
+    let searchQ = req.params.query
+    try{
+        fetch(`https://api.thecatapi.com/v1/breeds/search?q=${searchQ}`)
+        .then(res => res.json())
+        .then(data => res.status(200).send(data))
+    }
+    catch(error){
+        res.status(400).json({message: error})
+
+    }
+})
+
+router.get('/images/search',(req,res)=>{
+    console.log('GETTING IMAGES')
+    const limit = req.query.limit
+    const id = req.query.id 
+    try{
+        fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&breed_ids=${id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
+        .then(res => res.json())
+        .then(data => res.status(200).send(data))
+    }
+    catch(error){
+        res.status(400).json({message: error})
+    }
+})
+
 
 
 router.get("/",(req,res)=>{

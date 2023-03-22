@@ -1,10 +1,13 @@
 const mongoose = require("mongoose")
 
 const dataSchema = new mongoose.Schema({
-    catID:{
+    _id:{
         required: true,
         type: String
     },
-},{collection:'cats'})
+    visitorCount:{
+        type: Number
+    }
+},{timestamps: true,collection:'cats'})
 
 module.exports = mongoose.model('Data', dataSchema)
