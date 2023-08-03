@@ -1,3 +1,5 @@
-<!-- Please update value in the {}  -->
+## Catwiki Website
 
-<h1 align="center">CatWiki</h1>
+- Built using React & Express
+- Used (TheCatAPI)[https://thecatapi.com/] to retrieve relevant information
+- 
