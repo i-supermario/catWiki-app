@@ -1,7 +1,5 @@
-<!-- Please update value in the {}  -->
+## Catwiki Website
 
-<h1 align="center">CatWiki</h1>
-
-- Website [your-website.com](https://{your-web-site-link})
-- GitHub [@your-username](https://{github.com/your-usermame})
-- Twitter [@your-twitter](https://{twitter.com/your-username})
+- Built using React, Express & MongoDB
+- Used [TheCatAPI](https://thecatapi.com/) to retrieve relevant information
+- Used Material UI for styling
