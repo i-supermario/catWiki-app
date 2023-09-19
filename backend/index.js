@@ -6,7 +6,9 @@ const cors = require("cors")
 const mongoString = process.env.DATABASE_URL;
 const bodyParser = require("body-parser")
 
-const routes = require("./routes/routes")
+
+const routes = require("./routes/routes");
+const ServerlessHttp = require('serverless-http');
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -34,4 +36,4 @@ app.listen(process.env.PORT || 3001, () => {
     
 
 module.exports = app
-export const handler = serverless(app);
+module.exports = handler = ServerlessHttp(app);
