@@ -23,6 +23,10 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
 app.use(express.json());
+
+app.post("",async (req,res)=>{
+    res.send("Working site")
+})
 app.use("/app",routes)
 app.listen(process.env.PORT || 3001, () => {
     console.log(`Server Started at 3001`)
@@ -30,3 +34,4 @@ app.listen(process.env.PORT || 3001, () => {
     
 
 module.exports = app
+export const handler = serverless(app);
