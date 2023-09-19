@@ -71,7 +71,10 @@ router.get('/search/:query',(req,res)=>{
     try{
         fetch(`https://api.thecatapi.com/v1/breeds/search?q=${searchQ}`)
         .then(res => res.json())
-        .then(data => res.status(200).send(data))
+        .then(data => {
+            console.log(data)
+            res.status(200).send(data)
+        })
     }
     catch(error){
         res.status(400).json({message: error})
@@ -86,7 +89,11 @@ router.get('/images/search',(req,res)=>{
     try{
         fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&breed_ids=${id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
         .then(res => res.json())
-        .then(data => res.status(200).send(data))
+        .then(data => 
+            {
+                console.log(data)
+                res.status(200).send(data)
+            })
     }
     catch(error){
         res.status(400).json({message: error})
