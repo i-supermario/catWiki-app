@@ -8,8 +8,6 @@ const bodyParser = require("body-parser")
 
 
 const routes = require("./routes/routes");
-const ServerlessHttp = require('serverless-http');
-
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 
@@ -36,4 +34,3 @@ app.listen(process.env.PORT || 3001, () => {
     
 
 module.exports = app
-module.exports = handler = ServerlessHttp(app);
