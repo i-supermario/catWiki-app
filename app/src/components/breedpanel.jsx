@@ -8,7 +8,7 @@ function Breedpanel(){
     const [data,setData] = useState('')
     
     useEffect(()=>{
-        fetch('http://localhost:3001/app/top')
+        fetch('https://catwiki-backend.onrender.com/app/top')
         .then(res => res.json())
         .then(res => setData(res))
         .then('data is set')

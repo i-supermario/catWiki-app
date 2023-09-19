@@ -12,7 +12,7 @@ function Profile(){
 
     // console.log(data)
     useEffect(()=>{
-            fetch(`http://localhost:3001/app/post?catID=${data.id}`,{
+            fetch(`https://catwiki-backend.onrender.com/app/post?catID=${data.id}`,{
                 method:'POST'
             })   
         },[])
@@ -59,7 +59,7 @@ function Gallery(props){
     const id = props.id
     const [data,setData] = useState([])
     useEffect(()=>{
-        fetch(`http://localhost:3001/app/images/search?limit=8&id=${id}`)
+        fetch(`https://catwiki-backend.onrender.com/app/images/search?limit=8&id=${id}`)
         .then(res => res.json())
         .then(res => setData(res))
     },[])
