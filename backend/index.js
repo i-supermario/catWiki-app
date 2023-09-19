@@ -6,7 +6,9 @@ const cors = require("cors")
 const mongoString = process.env.DATABASE_URL;
 const bodyParser = require("body-parser")
 
-const routes = require("./routes/routes")
+
+const routes = require("./routes/routes");
+const ServerlessHttp = require('serverless-http');
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -23,6 +25,10 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
 app.use(express.json());
+
+app.post("",async (req,res)=>{
+    res.send("Working site")
+})
 app.use("/app",routes)
 app.listen(process.env.PORT || 3001, () => {
     console.log(`Server Started at 3001`)
@@ -30,3 +36,4 @@ app.listen(process.env.PORT || 3001, () => {
     
 
 module.exports = app
+module.exports = handler = ServerlessHttp(app);
