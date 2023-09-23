@@ -4,14 +4,12 @@ const router = express.Router()
 module.exports = router
 
 const Model = require("../models/model")
+// const { Error } = require("mongoose")
 
 
 // Upsert Endpoint to insert if it doesn't exist, and update the timestamp if it does
 router.post('/post', async (req,res)=>{
     console.log("POSTING")
-    // const data = new Model({
-    //     _id: req.query.catID,
-    // })
 
     try{
         let cat = await Model.findById(req.query.catID,{_id:0,visitorCount:1})
@@ -35,24 +33,32 @@ router.post('/post', async (req,res)=>{
 router.get('/top',async (req,res)=>{
     console.log('GET TOP 10')
     try{
+        // throw new Error("Error message");
         const data = await Model.find({},{_id:1}).sort({visitorCount:-1}).limit(10)
+        let promises = data.map(value => fetch(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${value._id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
+        .then(res => res.json())
+        // .then(res => console.log(res))
+        )
 
-        var promises = data.map(value => fetch(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${value._id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
-        .then(res => res.json()));
-        Promise.all(promises).then(results => {
-                const cats = results.map(result => {
-                    result[0].breeds[0].url = result[0].url
-                    return {
-                        cat : result[0].breeds[0],
-                    }
-                } 
-                )
-                res.status(200).send(cats)
-            });
+        Promise.all(promises)
+        .then(results => {
+            // console.log(results)
+            // console.log(results.length)
+            
+            const cats = results.filter(result => result.length!=0).map(result => {
+                return {
+                    url: result[0].url,
+                    breed: result[0].breeds
+                }
+        }
+            )
+            res.status(200).send({result: cats})
+        })
+        .catch(error => res.status(400).send(error))
         
     }
     catch(error){
-        res.status(400).json({message:error})
+        res.status(400).send({message: error})
         console.log(error)
     }
     

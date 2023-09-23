@@ -20,16 +20,16 @@ function Cat(props){
 
                 }}>
                     <Box>
-                    <img key={props.id} src={props.url} alt={props.name} style={{height:'200px',width:'200px',borderRadius: '15px'}} />
+                        <img key={props.index} src={props.url} alt={props.name} style={{height:'200px',width:'200px',borderRadius: '15px'}} />
                     </Box>
-                    <Container key={props.name} disableGutters sx={{
+                    <Container key={props.id} disableGutters sx={{
                         display:'flex', 
                         flexDirection:'column',
                     }}>
-                        <Typography key={props.name} variant='h4'>
+                        <Typography key={props.id} variant='h4'>
                             {props.index+1}{". "}{props.name}
                         </Typography>
-                        <Typography key={props.id} variant='caption' >
+                        <Typography key={props.url} variant='caption' >
                             {props.description}
                         </Typography>
                     </Container>
@@ -44,6 +44,7 @@ function Cat(props){
 function TopBreeds(){
     const location = useLocation()
     const data = location.state.data
+    // console.log(data)
 
 
     return(
@@ -62,9 +63,9 @@ function TopBreeds(){
                     Top 10 most searched breeds    
                 </Typography>
                 {
-                    Object.values(data).map((value,i) =>
+                    data.map((value,i) =>
                     {
-                        return <Cat index={i} id={value.cat.id} url={value.cat.url} name={value.cat.name} description={value.cat.description}  />
+                        return <Cat index={i} id={value.breed[0].id} url={value.url} name={value.breed[0].name} description={value.breed[0].description}  />
                     }
                     )
                 }             

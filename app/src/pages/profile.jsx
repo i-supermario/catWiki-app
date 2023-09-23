@@ -12,7 +12,8 @@ function Profile(){
 
     // console.log(data)
     useEffect(()=>{
-            fetch(`https://catwiki-backend.onrender.com/app/post?catID=${data.id}`,{
+            // fetch(`https://catwiki-backend.onrender.com/app/post?catID=${data.id}`,{
+            fetch(`http://localhost:3001/app/post??catID=${data.id}`,{
                 method:'POST'
             })   
         },[])
@@ -59,7 +60,8 @@ function Gallery(props){
     const id = props.id
     const [data,setData] = useState([])
     useEffect(()=>{
-        fetch(`https://catwiki-backend.onrender.com/app/images/search?limit=8&id=${id}`)
+        // fetch(`https://catwiki-backend.onrender.com/app/images/search?limit=8&id=${id}`)
+        fetch(`http://localhost:3001/app/images/search?limit=8&id=${id}`)
         .then(res => res.json())
         .then(res => setData(res))
     },[])
@@ -75,7 +77,7 @@ function Gallery(props){
                             {
                                 Object.values(data).map(value => 
                                 <>
-                                    <Grid item xs={3} sx={{
+                                    <Grid key={value.id} item xs={3} sx={{
                                         height:"200px",
                                         width:"200px",
                                         display:'flex',
@@ -87,7 +89,7 @@ function Gallery(props){
                                             borderRadius:"15px"
 
                                         }}
-                                        key={value.url} src={value.url} alt={value.url}/>
+                                        key={value.id} src={value.url} alt={value.url}/>
                                     </Grid>
                                 </> )
                             }

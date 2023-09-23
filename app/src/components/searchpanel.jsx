@@ -16,7 +16,8 @@ function Searchpanel(props){
     async function showSearchResults(evt){
         setResultList([])
         let searchQ = evt.target.value;
-        fetch(`https://catwiki-backend.onrender.com/app/search/${searchQ}`)
+        // fetch(`https://catwiki-backend.onrender.com/app/search/${searchQ}`)
+        fetch(`http://localhost:3001/app/search/${searchQ}`)
         .then(res => res.json())
         .then(result => {
             let resultData = []

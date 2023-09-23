@@ -8,10 +8,14 @@ function Breedpanel(){
     const [data,setData] = useState('')
     
     useEffect(()=>{
-        fetch('https://catwiki-backend.onrender.com/app/top')
+        // fetch('https://catwiki-backend.onrender.com/app/top')
+        fetch('http://localhost:3001/app/top')
         .then(res => res.json())
-        .then(res => setData(res))
-        .then('data is set')
+        .then(res => {
+            "result" in res ? setData(res.result) : setData(null)
+            // console.log(res)
+        })
+        .catch(err => console.log(err))
 
     },[])
 
@@ -47,7 +51,9 @@ function Breedpanel(){
                     </Link>
 
                 </Container>
-                <Picturepanel data = {data}/>
+                {
+                    data.length > 0 ? <Picturepanel data = {data}/> : <><Container>Loading</Container></>
+                }
             </Container>
         </>
     )   
