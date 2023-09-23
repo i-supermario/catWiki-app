@@ -35,10 +35,12 @@ router.get('/top',async (req,res)=>{
     try{
         // throw new Error("Error message");
         const data = await Model.find({},{_id:1}).sort({visitorCount:-1}).limit(10)
+        console.log(data)
         let promises = data.map(value => fetch(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${value._id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
         .then(res => res.json())
         // .then(res => console.log(res))
         )
+        console.log("got promises",promises)
 
         Promise.all(promises)
         .then(results => {
@@ -46,12 +48,14 @@ router.get('/top',async (req,res)=>{
             // console.log(results.length)
             
             const cats = results.filter(result => result.length!=0).map(result => {
+                console.log("result",result)
                 return {
                     url: result[0].url,
                     breed: result[0].breeds
                 }
         }
             )
+            console.log("got cats",cats)
             res.status(200).send({result: cats})
         })
         .catch(error => res.status(400).send(error))
