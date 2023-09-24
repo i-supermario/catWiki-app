@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "catwiki backend",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon index.js"
   },
@@ -16,5 +17,9 @@
     "mongoose": "^7.0.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^2.0.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.20",
+    "@babel/preset-env": "^7.22.20"
   }
 }

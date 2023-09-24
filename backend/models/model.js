@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from 'mongoose';
 
 const dataSchema = new mongoose.Schema({
     _id:{
@@ -10,4 +10,5 @@ const dataSchema = new mongoose.Schema({
     }
 },{timestamps: true,collection:'cats'})
 
-module.exports = mongoose.model('Data', dataSchema)
+const CatModel = mongoose.model('Data', dataSchema)
+export default CatModel

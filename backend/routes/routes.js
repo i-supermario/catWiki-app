@@ -1,8 +1,8 @@
-const express = require("express")
+import express from 'express'
 const router = express.Router()
-module.exports = router
-const Model = require("../models/model")
 import fetch from 'node-fetch'
+import CatModel from '../models/model.js'
+
 // const { Error } = require("mongoose")
 
 
@@ -11,11 +11,11 @@ router.post('/post', async (req,res)=>{
     console.log("POSTING")
 
     try{
-        let cat = await Model.findById(req.query.catID,{_id:0,visitorCount:1})
+        let cat = await CatModel.findById(req.query.catID,{_id:0,visitorCount:1})
 
         let visitorCount = cat ? cat.visitorCount : 0
 
-        const doc = await Model.updateOne(
+        const doc = await CatModel.updateOne(
                     { _id: req.query.catID },
                     { $set: { visitorCount: visitorCount + 1 } },
                     { upsert: true,new: true } // Make this update into an upsert
@@ -33,7 +33,7 @@ router.get('/top',async (req,res)=>{
     console.log('GET TOP 10')
     try{
         // throw new Error("Error message");
-        const data = await Model.find({},{_id:1}).sort({visitorCount:-1}).limit(10)
+        const data = await CatModel.find({},{_id:1}).sort({visitorCount:-1}).limit(10)
         console.log(data)
         let promises = data.map(value => fetch(`https://api.thecatapi.com/v1/images/search?limit=1&breed_ids=${value._id}&api_key=live_G4JFwgGUOtl41S5SiTwEqbHEvPWQsv7CWktg8TtQnyC3PWZP8SxVgSCPJYffjY9p`)
         .then(res => res.json())
@@ -116,4 +116,4 @@ router.get("/",(req,res)=>{
 })
 
 
-module.exports = router
+export default router

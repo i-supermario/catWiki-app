@@ -1,15 +1,15 @@
-require('dotenv').config();
+import 'dotenv/config'
+import express from 'express'
+import mongoose from 'mongoose';
+import cors from 'cors'
+import bodyParser from 'body-parser';
+import router from './routes/routes.js'
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require("cors")
-const mongoString = process.env.DATABASE_URL;
-const bodyParser = require("body-parser")
 
-
-const routes = require("./routes/routes");
-mongoose.connect(mongoString);
 const database = mongoose.connection;
+const mongoString = process.env.DATABASE_URL;
+
+mongoose.connect(mongoString);
 
 database.on('error', (error) => {
     console.log(error)
@@ -27,10 +27,10 @@ app.use(express.json());
 app.post("",async (req,res)=>{
     res.send("Working site")
 })
-app.use("/app",routes)
+app.use("/app",router)
 app.listen(process.env.PORT || 3001, () => {
     console.log(`Server Started at 3001`)
 })
     
 
-module.exports = app
+export default app
