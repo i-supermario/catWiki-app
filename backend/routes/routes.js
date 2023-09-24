@@ -1,9 +1,8 @@
-const { json } = require("body-parser")
 const express = require("express")
 const router = express.Router()
 module.exports = router
-
 const Model = require("../models/model")
+const fetch = require("node-fetch")
 // const { Error } = require("mongoose")
 
 
