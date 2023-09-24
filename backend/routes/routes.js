@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 module.exports = router
 const Model = require("../models/model")
-const fetch = require("node-fetch")
+import fetch from 'node-fetch'
 // const { Error } = require("mongoose")
 
 
